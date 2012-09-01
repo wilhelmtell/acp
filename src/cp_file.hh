@@ -1,5 +1,5 @@
-#ifndef CP_FILE_HH_
-#define CP_FILE_HH_
+#ifndef ACP_CP_FILE_HH_
+#define ACP_CP_FILE_HH_
 
 #include <boost/filesystem/path.hpp>
 #include <iosfwd>
@@ -24,4 +24,4 @@ private:
 };
 }  // namespace acp
 
-#endif  // CP_FILE_HH_
+#endif  // ACP_CP_FILE_HH_
