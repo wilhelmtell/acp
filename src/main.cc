@@ -20,7 +20,8 @@ int main(int argc, char const * argv[])
     auto * out(conf.v ? &std::cout : nullptr);
     try {
         std::for_each(conf.args.begin(), conf.args.end(), [&](std::string const& f) {
-            ops.push(acp::cp_file(f, bfs::path(conf.tgt) / f, out));
+            auto const tgt(bfs::path(conf.tgt) / f);
+            ops.push(acp::cp_file(f, tgt.string(), out));
         });
         while( ! ops.empty() ) {  // std::stack elements cleanup order undefined
             ops.top().commit();
