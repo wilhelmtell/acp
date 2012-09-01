@@ -10,9 +10,9 @@ cp_file::cp_file(std::string const& s, std::string const& t, std::ostream * out)
 , ok(false)
 , out(out)
 {
+    bfs::copy(s, t);
     if( out != nullptr )
         (*out) << "cp " << s << " " << t << '\n';
-    bfs::copy(s, t);
 }
 
 cp_file::~cp_file()
