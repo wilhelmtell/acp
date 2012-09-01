@@ -1,1 +1,1 @@
-common.clang.mk
+common.gcc.mk

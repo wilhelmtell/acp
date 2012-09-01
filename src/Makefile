@@ -1,8 +1,12 @@
 include $(ROOTDIR)/src/common.mk
 
+LDFLAGS += -lboost_filesystem \
+           -lboost_system
 # if it's a static library we compile we might override PRODUCT:
 # export PRODUCT = libacp.a
-OBJ := $(CURDIR)/main.o
+OBJ := $(CURDIR)/main.o \
+       $(CURDIR)/cmdline.o \
+       $(CURDIR)/cp_file.o
 DEPS := $(OBJ:.o=.dep)
 
 .PHONY: all clean distclean install uninstall
