@@ -17,7 +17,7 @@ cp_file::cp_file(std::string const& s, std::string const& t, std::ostream * out)
 
 cp_file::~cp_file()
 {
-    if( ! ok ) {
+    if( ! ok && ! t.empty() ) {
         if( out != nullptr )
             (*out) << "rm " << t << '\n';
         boost::system::error_code e;
