@@ -1,13 +1,7 @@
-#include "cp_file.hh"
 #include "cmdline.hh"
-#include <stack>
+#include "cp.hh"
 #include <iostream>
-#include <algorithm>
-#include <string>
 #include <exception>
-#include <boost/filesystem/path.hpp>
-
-namespace bfs = boost::filesystem;
 
 int main(int argc, char const * argv[])
 {
@@ -16,23 +10,12 @@ int main(int argc, char const * argv[])
         std::cout << " usage: " << argv[0] << " src0 [src1 [src2 [...]]] tgt\n";
         return 0;
     }
-    std::stack<acp::cp_file> ops;
     auto * out(conf.v ? &std::cout : nullptr);
     try {
-        std::for_each(conf.args.begin(), conf.args.end(), [&](std::string const& f) {
-            auto const tgt(bfs::path(conf.tgt) / f);
-            ops.push(acp::cp_file(f, tgt.string(), out));
-        });
-        while( ! ops.empty() ) {  // std::stack elements cleanup order undefined
-            ops.top().commit();
-            ops.pop();
-        }
+        acp::cp op(conf.args.begin(), conf.args.end(), conf.tgt, out);
+        op.commit();
     } catch( std::exception const& e ) {
         std::cerr << "error: " << e.what() << '\n';
-        if( conf.v && ! ops.empty() )
-            (*out) << "rolling back ...\n";
-        while( ! ops.empty() )  // std::stack elements cleanup order undefined
-            ops.pop();
     }
     return 0;
 }

@@ -6,6 +6,7 @@ LDFLAGS += -lboost_filesystem \
 # export PRODUCT = libacp.a
 OBJ := $(CURDIR)/main.o \
        $(CURDIR)/cmdline.o \
+       $(CURDIR)/cp.o \
        $(CURDIR)/cp_file.o
 DEPS := $(OBJ:.o=.dep)
 
