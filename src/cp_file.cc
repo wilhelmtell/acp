@@ -1,6 +1,7 @@
 #include "cp_file.hh"
 #include <boost/filesystem/operations.hpp>
 #include <boost/system/error_code.hpp>
+#include <ostream>
 
 namespace bfs = boost::filesystem;
 
