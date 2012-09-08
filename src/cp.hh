@@ -2,7 +2,6 @@
 #define ACP_CP_HH_
 
 #include "cp_file.hh"
-#include <string>
 #include <iosfwd>
 #include <vector>
 
@@ -10,7 +9,7 @@ namespace acp {
 struct cp {
     template<typename In>
     cp(In const& first, In const& last,
-       std::string const& target_dir,
+       boost::filesystem::path const& target_dir,
        std::ostream * out = nullptr);
 
     ~cp();
