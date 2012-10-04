@@ -27,8 +27,8 @@ inline void cp_r(boost::filesystem::path const& d,
 
 namespace acp {
 template<typename In>
-cp::cp(In const& first, In const& last,
-       boost::filesystem::path const& target_dir,
+cp::cp(In first, In last,
+       boost::filesystem::path target_dir,
        std::ostream * out)
 {
     namespace bfs = boost::filesystem;

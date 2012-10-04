@@ -8,8 +8,8 @@
 namespace acp {
 struct cp {
     template<typename In>
-    cp(In const& first, In const& last,
-       boost::filesystem::path const& target_dir,
+    cp(In first, In last,
+       boost::filesystem::path target_dir,
        std::ostream * out = nullptr);
 
     ~cp();

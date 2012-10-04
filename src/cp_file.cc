@@ -7,7 +7,7 @@
 namespace bfs = boost::filesystem;
 
 namespace acp {
-cp_file::cp_file(bfs::path const& s, bfs::path const& t, std::ostream * out)
+cp_file::cp_file(bfs::path s, bfs::path t, std::ostream * out)
 : t(t)
 , ok(false)
 , out(out)
