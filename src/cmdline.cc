@@ -16,9 +16,4 @@ cmdline::cmdline(int const argc, char const * argv[])
             args.push_back(arg);
     }
 }
-
-bool cmdline::ok() const
-{
-    return ! args.empty();
-}
 }  // namespace acp

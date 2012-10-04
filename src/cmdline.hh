@@ -8,8 +8,6 @@ namespace acp {
 struct cmdline {
     cmdline(int const argc, char const * argv[]);
 
-    bool ok() const;
-
 public:
     std::vector<std::string> args;
     std::string tgt;
