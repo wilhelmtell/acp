@@ -19,7 +19,7 @@ struct cp_file {
     void commit();
 
 private:
-    std::string t;
+    boost::filesystem::path t;
     bool ok;
     std::ostream * out;
 };

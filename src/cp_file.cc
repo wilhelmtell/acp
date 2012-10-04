@@ -8,7 +8,7 @@ namespace bfs = boost::filesystem;
 
 namespace acp {
 cp_file::cp_file(bfs::path const& s, bfs::path const& t, std::ostream * out)
-: t(t.string())
+: t(t)
 , ok(false)
 , out(out)
 {
@@ -21,7 +21,7 @@ cp_file::~cp_file()
 {
     if( ! ok && ! t.empty() ) {
         if( out != nullptr )
-            (*out) << "rm " << t << '\n';
+            (*out) << "rm " << t.string() << '\n';
         boost::system::error_code e;
         bfs::remove(t, e);
     }
