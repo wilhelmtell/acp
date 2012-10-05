@@ -15,4 +15,11 @@ TEST_CASE( "cp_file/copy a file", "" ) {
     fs::path const target(source.string() + ".cp");
     acp::cp_file op(source, target);
     REQUIRE( fs::is_regular_file(target) );
+} TEST_CASE( "cp_file/copy a file, then roll back", "" ) {
+    acp::test::sandbox box;
+    auto const source(box.path() / "file");
+    std::ofstream(source.string());
+    fs::path const target(source.string() + ".cp");
+    { acp::cp_file op(source, target); }
+    REQUIRE( ! fs::exists(target) );
 }
