@@ -3,6 +3,7 @@
 #include <boost/system/error_code.hpp>
 #include <boost/filesystem/path.hpp>
 #include <ostream>
+#include <utility>
 
 namespace bfs = boost::filesystem;
 
@@ -15,6 +16,24 @@ cp_file::cp_file(bfs::path s, bfs::path t, std::ostream * out)
     bfs::copy(s, t);
     if( out != nullptr )
         (*out) << "cp " << s.string() << " " << t.string() << '\n';
+}
+
+cp_file::cp_file(cp_file&& rhs)
+: t()
+, ok(false)
+, out(nullptr)
+{
+    std::swap(t, rhs.t);
+    std::swap(ok, rhs.ok);
+    std::swap(out, rhs.out);
+}
+
+cp_file& cp_file::operator=(cp_file&& rhs)
+{
+    std::swap(t, rhs.t);
+    std::swap(ok, rhs.ok);
+    std::swap(out, rhs.out);
+    return *this;
 }
 
 cp_file::~cp_file()

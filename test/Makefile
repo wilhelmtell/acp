@@ -3,6 +3,7 @@ include $(ROOTDIR)/test/common.mk
 export PRODUCT = test_acp
 OBJ := $(CURDIR)/main.o \
        $(CURDIR)/file.o \
+       $(CURDIR)/directory.o \
        $(ROOTDIR)/src/cmdline.o \
        $(ROOTDIR)/src/cp.o \
        $(ROOTDIR)/src/cp_file.o

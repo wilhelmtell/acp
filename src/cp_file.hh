@@ -12,8 +12,8 @@ struct cp_file {
             std::ostream * out = nullptr);
     cp_file(cp_file const&) = delete;
     cp_file& operator=(cp_file const&) = delete;
-    cp_file(cp_file&&) = default;
-    cp_file& operator=(cp_file&&) = default;
+    cp_file(cp_file&& rhs);
+    cp_file& operator=(cp_file&& rhs);
     ~cp_file();
 
     void commit();

@@ -8,6 +8,11 @@
 namespace fs = boost::filesystem;
 
 namespace acp { namespace test {
+file::file()
+: file(fs::unique_path())
+{
+}
+
 file::file(fs::path const& pathname)
 : at(fs::temp_directory_path() / fs::unique_path())
 , relative_pathname(pathname)

@@ -5,6 +5,7 @@
 
 namespace acp { namespace test {
 struct file {
+    file();
     explicit file(boost::filesystem::path const& pathname);
     ~file();
     file(file&&) = default;
