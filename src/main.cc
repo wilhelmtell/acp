@@ -42,16 +42,10 @@ po::variables_map variables_map(int argc, char const * argv[],
     return vm;
 }
 
-void verify_there_is_at_least_one_argument_file(po::variables_map const& vm)
+void verify_source_files(po::variables_map const& vm)
 {
-    if( ! vm.count("target") )
-        throw std::runtime_error("no target directory specified");
     if( ! vm.count("source-files") )
         throw std::runtime_error("no source files specified");
-}
-
-void verify_all_argument_files_exist(po::variables_map const& vm)
-{
     auto src(vm["source-files"].as<std::vector<std::string>>());
     auto const src_b(src.begin()), src_e(src.end());
     auto const pivot(std::partition(src_b, src_e, [](std::string const& s) {
@@ -63,10 +57,18 @@ void verify_all_argument_files_exist(po::variables_map const& vm)
     }
 }
 
+void verify_target_directory(po::variables_map const& vm)
+{
+    if( ! vm.count("target") )
+        throw std::runtime_error("no target directory specified");
+    if( ! fs::is_directory(vm["target"].as<std::string>()) )
+        throw std::runtime_error("target directory not found");
+}
+
 void verify(po::variables_map const& vm)
 {
-    verify_there_is_at_least_one_argument_file(vm);
-    verify_all_argument_files_exist(vm);
+    verify_target_directory(vm);
+    verify_source_files(vm);
 }
 
 void print_help(std::string const& argv0, po::options_description const& desc)
