@@ -1,61 +1,113 @@
-#include "cmdline.hh"
 #include "cp.hh"
 #include <iostream>
+#include <string>
 #include <boost/filesystem/operations.hpp>
 #include <exception>
 #include <algorithm>
 #include <boost/algorithm/string/join.hpp>
+#include <boost/program_options.hpp>
 
 namespace fs = boost::filesystem;
 namespace al = boost::algorithm;
+namespace po = boost::program_options;
 
 namespace {
-void verify_there_is_at_least_one_argument_file(std::vector<std::string> args)
+po::options_description options_description()
 {
-    if( args.empty() )
-        throw std::runtime_error("no files specified");
+    po::options_description desc;
+    desc.add_options()
+        ("help", "display this help message")
+        ("verbose,v", "describe what's being done")
+        ("source-files", po::value<std::vector<std::string>>(), "files to copy")
+        ("target", po::value<std::string>(), "target directory");
+    return desc;
 }
 
-void verify_all_argument_files_exist(std::vector<std::string> args)
+po::positional_options_description positional_options()
 {
-    auto const args_b(args.begin()), args_e(args.end());
-    auto const pivot(std::partition(args_b, args_e, [](std::string const& a) {
-        return fs::exists(a);
+    po::positional_options_description positional;
+    positional.add("target", 1).add("source-files", -1);
+    return positional;
+}
+
+po::variables_map variables_map(int argc, char const * argv[],
+                                po::positional_options_description const& pos,
+                                po::options_description const& desc)
+{
+    po::variables_map vm;
+    po::store(po::command_line_parser(argc, argv).
+              options(desc).
+              positional(pos).
+              run(), vm);
+    return vm;
+}
+
+void verify_there_is_at_least_one_argument_file(po::variables_map const& vm)
+{
+    if( ! vm.count("target") )
+        throw std::runtime_error("no target directory specified");
+    if( ! vm.count("source-files") )
+        throw std::runtime_error("no source files specified");
+}
+
+void verify_all_argument_files_exist(po::variables_map const& vm)
+{
+    auto src(vm["source-files"].as<std::vector<std::string>>());
+    auto const src_b(src.begin()), src_e(src.end());
+    auto const pivot(std::partition(src_b, src_e, [](std::string const& s) {
+        return fs::exists(s);
     }));
-    if( pivot != args_e ) {
-        std::vector<std::string> const files(pivot, args_e);
+    if( pivot != src_e ) {
+        std::vector<std::string> const files(pivot, src_e);
         throw std::runtime_error(al::join(files, ", ") + " not found");
     }
 }
 
-void verify(acp::cmdline const& conf)
+void verify(po::variables_map const& vm)
 {
-    verify_there_is_at_least_one_argument_file(conf.args);
-    verify_all_argument_files_exist(conf.args);
+    verify_there_is_at_least_one_argument_file(vm);
+    verify_all_argument_files_exist(vm);
+}
+
+void print_help(std::string const& argv0, po::options_description const& desc)
+{
+    std::cout <<
+        " usage: " << argv0 << " [options] t s0 [s1 [...]]\n"
+        "\n"
+        "t          is a directory name.\n"
+        "s0, s1 ... are file or directory names.\n"
+        "\n"
+        "copy source files and directories s0, s1, ... into\n"
+        "target directory t. this is an all-or-nothing\n"
+        "operation: either all files successfully copy or none\n"
+        "at all copy."
+    << "\n\n" << desc << '\n';
+}
+
+void exec(po::variables_map const& vm)
+{
+    verify(vm);
+    auto const out(vm.count("verbose") ? &std::cout : nullptr);
+    auto const source_files(vm["source-files"].as<std::vector<std::string>>());
+    auto const target(vm["target"].as<std::string>());
+    acp::cp op(source_files.begin(), source_files.end(), target, out);
+    op.commit();
 }
 }  // local namespace
 
 int main(int argc, char const * argv[])
 {
     try {
-        acp::cmdline conf(argc, argv);
-        auto * out(conf.v ? &std::cout : nullptr);
-        verify(conf);
-        acp::cp op(conf.args.begin(), conf.args.end(), conf.tgt, out);
-        op.commit();
+        auto const desc(options_description());
+        auto const positional(positional_options());
+        auto const vm(variables_map(argc, argv, positional, desc));
+        if( vm.count("help") )
+            print_help(argv[0], desc);
+        else
+            exec(vm);
         return 0;
     } catch( std::exception const& e ) {
-        std::cerr << "error: " << e.what() << "\n"
-                     "\n"
-                     " usage: " << argv[0] << " src0 [src1 [...]] tgt\n"
-                     "\n"
-                     "src0, ... are file or directory names.\n"
-                     "tgt       is a directory name.\n"
-                     "\n"
-                     "copy the given source files and directories into the\n"
-                     "target directory. this is an all-or-nothing operation:\n"
-                     "either all files successfully copy or none at all\n"
-                     "copy.\n";
+        std::cerr << "error: " << e.what() << '\n';
         return 1;
     }
 }

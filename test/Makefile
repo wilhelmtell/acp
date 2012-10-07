@@ -7,7 +7,6 @@ OBJ := $(CURDIR)/main.o \
        $(CURDIR)/cp.o \
        $(CURDIR)/file.o \
        $(CURDIR)/directory.o \
-       $(ROOTDIR)/src/cmdline.o \
        $(ROOTDIR)/src/cp.o \
        $(ROOTDIR)/src/cp_file.o
 DEPS := $(OBJ:.o=.dep)

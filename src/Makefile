@@ -1,11 +1,11 @@
 include $(ROOTDIR)/src/common.mk
 
 LDFLAGS += -lboost_filesystem \
-           -lboost_system
+           -lboost_system \
+           -lboost_program_options
 # if it's a static library we compile we might override PRODUCT:
 # export PRODUCT = libacp.a
 OBJ := $(CURDIR)/main.o \
-       $(CURDIR)/cmdline.o \
        $(CURDIR)/cp.o \
        $(CURDIR)/cp_file.o
 DEPS := $(OBJ:.o=.dep)
