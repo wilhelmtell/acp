@@ -10,8 +10,6 @@ struct cp_file {
     cp_file(boost::filesystem::path s,
             boost::filesystem::path t,
             std::ostream * out = nullptr);
-    cp_file(cp_file const&) = delete;
-    cp_file& operator=(cp_file const&) = delete;
     cp_file(cp_file&& rhs);
     cp_file& operator=(cp_file&& rhs);
     ~cp_file();

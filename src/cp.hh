@@ -11,12 +11,9 @@ struct cp {
     cp(In first, In last,
        boost::filesystem::path target_dir,
        std::ostream * out = nullptr);
-
     ~cp();
     cp(cp&&) = default;
     cp& operator=(cp&&) = default;
-    cp(cp const&) = delete;
-    cp& operator=(cp const&) = delete;
 
     void commit();
 
