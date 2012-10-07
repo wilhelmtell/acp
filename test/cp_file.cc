@@ -9,8 +9,7 @@ TEST_CASE( "cp_file/copy a file", "" ) {
     acp::test::file const file("source");
     auto const target(file.parent_path() / "copy");
     {
-        acp::cp_file op(file.path(), target);
-        op.commit();
+        acp::cp_file(file.path(), target).commit();
     }
     REQUIRE( fs::is_regular_file(target) );
 }
@@ -18,6 +17,8 @@ TEST_CASE( "cp_file/copy a file", "" ) {
 TEST_CASE( "cp_file/copy a file, then roll back", "" ) {
     acp::test::file const file("source");
     auto const target(file.parent_path() / "copy");
-    { acp::cp_file const op(file.path(), target); }
+    {
+        acp::cp_file(file.path(), target);
+    }
     REQUIRE( ! fs::exists(target) );
 }
