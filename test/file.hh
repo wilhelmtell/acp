@@ -20,6 +20,11 @@ private:
     boost::filesystem::path at;
     boost::filesystem::path relative_pathname;
 };
+
+template<typename T>
+file& operator<<(file& in, T const& value);
 } }  // namespace acp::test
+
+#include "file.tcc"
 
 #endif  // ACP_TEST_FILE_HH_
