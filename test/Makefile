@@ -11,7 +11,7 @@ OBJ := $(CURDIR)/main.o \
        $(ROOTDIR)/src/cp_file.o
 DEPS := $(OBJ:.o=.dep)
 
-.PHONY: clean distclean
+.PHONY: check clean distclean
 
 LDFLAGS+=-lboost_filesystem \
          -lboost_system
@@ -20,12 +20,12 @@ $(PRODUCT): $(OBJ)
 	$(LINK.cc) $(OUTPUT_OPTION) $^
 
 check: $(PRODUCT)
-	./$(PRODUCT) && touch check
+	./$(PRODUCT)
 
 all: check
 
 clean:
-	rm -f $(OBJ) $(DEPS) check
+	rm -f $(OBJ) $(DEPS)
 
 distclean: clean
 	rm -f $(PRODUCT)
