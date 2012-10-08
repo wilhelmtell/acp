@@ -7,7 +7,8 @@ LDFLAGS += -lboost_filesystem \
 # export PRODUCT = libacp.a
 OBJ := $(CURDIR)/main.o \
        $(CURDIR)/cp.o \
-       $(CURDIR)/cp_file.o
+       $(CURDIR)/cp_file.o \
+       $(CURDIR)/commandline.o
 DEPS := $(OBJ:.o=.dep)
 
 .PHONY: all clean distclean install uninstall
