@@ -12,28 +12,7 @@ namespace po = boost::program_options;
 namespace fs = boost::filesystem;
 namespace al = boost::algorithm;
 
-namespace acp {
-po::options_description options_description()
-{
-    po::options_description desc;
-    desc.add_options()
-        ("help", "display this help message")
-        ("verbose,v", "describe what's being done")
-        ("source-files", po::value<std::vector<std::string>>(), "files to copy")
-        ("target", po::value<std::string>(), "target directory");
-    return desc;
-}
-
-po::variables_map variables_map(int argc, char const * argv[],
-                                po::options_description const& desc)
-{
-    po::variables_map vm;
-    po::store(po::command_line_parser(argc, argv).
-              options(desc).
-              run(), vm);
-    return vm;
-}
-
+namespace {
 void verify_source_files(po::variables_map const& vm)
 {
     if( ! vm.count("source-files") )
@@ -61,6 +40,30 @@ void verify(po::variables_map const& vm)
 {
     verify_target_directory(vm);
     verify_source_files(vm);
+}
+
+}  // namespace
+
+namespace acp {
+po::options_description options_description()
+{
+    po::options_description desc;
+    desc.add_options()
+        ("help", "display this help message")
+        ("verbose,v", "describe what's being done")
+        ("source-files", po::value<std::vector<std::string>>(), "files to copy")
+        ("target", po::value<std::string>(), "target directory");
+    return desc;
+}
+
+po::variables_map variables_map(int argc, char const * argv[],
+                                po::options_description const& desc)
+{
+    po::variables_map vm;
+    po::store(po::command_line_parser(argc, argv).
+              options(desc).
+              run(), vm);
+    return vm;
 }
 
 void print_help(std::string const& argv0, po::options_description const& desc)
