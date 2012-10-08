@@ -7,11 +7,8 @@
 namespace acp {
 boost::program_options::options_description options_description();
 
-boost::program_options::positional_options_description positional_options();
-
 boost::program_options::variables_map
 variables_map(int argc, char const * argv[],
-              boost::program_options::positional_options_description const& pos,
               boost::program_options::options_description const& desc);
 
 void verify_source_files(boost::program_options::variables_map const& vm);

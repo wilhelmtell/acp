@@ -24,21 +24,12 @@ po::options_description options_description()
     return desc;
 }
 
-po::positional_options_description positional_options()
-{
-    po::positional_options_description positional;
-    positional.add("target", 1).add("source-files", -1);
-    return positional;
-}
-
 po::variables_map variables_map(int argc, char const * argv[],
-                                po::positional_options_description const& pos,
                                 po::options_description const& desc)
 {
     po::variables_map vm;
     po::store(po::command_line_parser(argc, argv).
               options(desc).
-              positional(pos).
               run(), vm);
     return vm;
 }
@@ -75,16 +66,13 @@ void verify(po::variables_map const& vm)
 void print_help(std::string const& argv0, po::options_description const& desc)
 {
     std::cout <<
-        " usage: " << argv0 << " [options] t s0 [s1 [...]]\n"
+        " usage: " << argv0 << " [options]\n"
         "\n"
-        "t          is a directory name.\n"
-        "s0, s1 ... are file or directory names.\n"
-        "\n"
-        "copy source files and directories s0, s1, ... into\n"
-        "target directory t. this is an all-or-nothing\n"
-        "operation: either all files successfully copy or none\n"
-        "at all copy."
-    << "\n\n" << desc << '\n';
+        " Copy source files and directories in an all-or-nothing fashion.\n"
+        " Either all files successfully copy, or (in case of an error) none\n"
+        " at all copy." <<
+        "\n\n" <<
+        desc;
 }
 
 void exec(po::variables_map const& vm)

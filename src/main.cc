@@ -6,8 +6,7 @@ int main(int argc, char const * argv[])
 {
     try {
         auto const desc(acp::options_description());
-        auto const positional(acp::positional_options());
-        auto const vm(acp::variables_map(argc, argv, positional, desc));
+        auto const vm(acp::variables_map(argc, argv, desc));
         if( vm.count("help") )
             acp::print_help(argv[0], desc);
         else
