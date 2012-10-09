@@ -7,6 +7,7 @@
 #include <string>
 #include <stdexcept>
 #include <algorithm>
+#include <iostream>
 
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
