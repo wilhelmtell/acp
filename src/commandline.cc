@@ -16,9 +16,9 @@ namespace al = boost::algorithm;
 namespace {
 void verify_source_files(po::variables_map const& vm)
 {
-    if( ! vm.count("source-files") )
+    if( ! vm.count("source_files") )
         throw std::runtime_error("no source files specified");
-    auto src(vm["source-files"].as<std::vector<std::string>>());
+    auto src(vm["source_files"].as<std::vector<std::string>>());
     auto const src_b(src.begin()), src_e(src.end());
     auto const pivot(std::partition(src_b, src_e, [](std::string const& s) {
         return fs::exists(s);
@@ -52,7 +52,7 @@ po::options_description options_description()
     desc.add_options()
         ("help", "display this help message")
         ("verbose,v", "describe what's being done")
-        ("source-files", po::value<std::vector<std::string>>(), "files to copy")
+        ("source_files", po::value<std::vector<std::string>>(), "files to copy")
         ("target", po::value<std::string>(), "target directory");
     return desc;
 }
@@ -83,7 +83,7 @@ void exec(po::variables_map const& vm)
 {
     verify(vm);
     auto const out(vm.count("verbose") ? &std::cout : nullptr);
-    auto const source_files(vm["source-files"].as<std::vector<std::string>>());
+    auto const source_files(vm["source_files"].as<std::vector<std::string>>());
     auto const target(vm["target"].as<std::string>());
     acp::cp op(source_files.begin(), source_files.end(), target, out);
     op.commit();
