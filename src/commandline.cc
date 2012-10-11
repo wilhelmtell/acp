@@ -29,18 +29,25 @@ void verify_source_files(po::variables_map const& vm)
     }
 }
 
+void verify_target(po::variables_map const& vm)
+{
+    if( vm.count("target_directory") + vm.count("target_file") != 1 )
+        throw std::runtime_error("exactly one target must be specified");
+}
+
 void verify_target_directory(po::variables_map const& vm)
 {
-    if( ! vm.count("target") )
-        throw std::runtime_error("no target directory specified");
-    if( ! fs::is_directory(vm["target"].as<std::string>()) )
+    if( ! vm.count("target_directory") )
+        return;
+    if( ! fs::is_directory(vm["target_diectory"].as<std::string>()) )
         throw std::runtime_error("target directory not found");
 }
 
 void verify(po::variables_map const& vm)
 {
-    verify_target_directory(vm);
+    verify_target(vm);
     verify_source_files(vm);
+    verify_target_directory(vm);
 }
 
 }  // namespace
@@ -53,7 +60,8 @@ po::options_description options_description()
         ("help", "display this help message")
         ("verbose,v", "describe what's being done")
         ("source_files", po::value<std::vector<std::string>>(), "files to copy")
-        ("target", po::value<std::string>(), "target directory");
+        ("target_file", po::value<std::string>(), "file to copy as")
+        ("target_directory", po::value<std::string>(), "directory to copy into");
     return desc;
 }
 
@@ -84,7 +92,7 @@ void exec(po::variables_map const& vm)
     verify(vm);
     auto const out(vm.count("verbose") ? &std::cout : nullptr);
     auto const source_files(vm["source_files"].as<std::vector<std::string>>());
-    auto const target(vm["target"].as<std::string>());
+    auto const target(vm["target_directory"].as<std::string>());
     acp::cp op(source_files.begin(), source_files.end(), target, out);
     op.commit();
 }
