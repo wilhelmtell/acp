@@ -72,6 +72,7 @@ po::variables_map variables_map(int argc, char const * argv[],
     po::store(po::command_line_parser(argc, argv).
               options(desc).
               run(), vm);
+    po::notify(vm);
     return vm;
 }
 
