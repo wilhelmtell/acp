@@ -1,56 +1,13 @@
 #include "commandline.hh"
 #include "cp.hh"
-#include <boost/program_options.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/algorithm/string/join.hpp>
+#include "verify.hh"
+#include <boost/program_options/options_description.hpp>
+#include <boost/program_options/variables_map.hpp>
 #include <vector>
 #include <string>
-#include <stdexcept>
-#include <algorithm>
 #include <iostream>
 
 namespace po = boost::program_options;
-namespace fs = boost::filesystem;
-namespace al = boost::algorithm;
-
-namespace {
-void verify_source_files(po::variables_map const& vm)
-{
-    if( ! vm.count("source_files") )
-        throw std::runtime_error("no source files specified");
-    auto src(vm["source_files"].as<std::vector<std::string>>());
-    auto const src_b(src.begin()), src_e(src.end());
-    auto const pivot(std::partition(src_b, src_e, [](std::string const& s) {
-        return fs::exists(s);
-    }));
-    if( pivot != src_e ) {
-        std::vector<std::string> const files(pivot, src_e);
-        throw std::runtime_error(al::join(files, ", ") + " not found");
-    }
-}
-
-void verify_target(po::variables_map const& vm)
-{
-    if( vm.count("target_directory") + vm.count("target_file") != 1 )
-        throw std::runtime_error("exactly one target must be specified");
-}
-
-void verify_target_directory(po::variables_map const& vm)
-{
-    if( ! vm.count("target_directory") )
-        return;
-    if( ! fs::is_directory(vm["target_diectory"].as<std::string>()) )
-        throw std::runtime_error("target directory not found");
-}
-
-void verify(po::variables_map const& vm)
-{
-    verify_target(vm);
-    verify_source_files(vm);
-    verify_target_directory(vm);
-}
-
-}  // namespace
 
 namespace acp {
 po::options_description options_description()
@@ -90,7 +47,7 @@ void print_help(std::string const& argv0, po::options_description const& desc)
 
 void exec(po::variables_map const& vm)
 {
-    verify(vm);
+    acp::verify(vm);
     auto const out(vm.count("verbose") ? &std::cout : nullptr);
     auto const source_files(vm["source_files"].as<std::vector<std::string>>());
     auto const target(vm["target_directory"].as<std::string>());

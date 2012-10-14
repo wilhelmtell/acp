@@ -5,9 +5,13 @@ OBJ := $(CURDIR)/main.o \
        $(CURDIR)/paths.o \
        $(CURDIR)/cp_file.o \
        $(CURDIR)/cp.o \
+       $(CURDIR)/variables_map.o \
+       $(CURDIR)/variable.o \
+       $(CURDIR)/verify.o \
        $(CURDIR)/file.o \
        $(CURDIR)/directory.o \
        $(CURDIR)/contents_of.o \
+       $(ROOTDIR)/src/verify_error.o \
        $(ROOTDIR)/src/cp.o \
        $(ROOTDIR)/src/cp_file.o
 DEPS := $(OBJ:.o=.dep)

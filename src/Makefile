@@ -8,6 +8,7 @@ LDFLAGS += -lboost_filesystem \
 OBJ := $(CURDIR)/main.o \
        $(CURDIR)/cp.o \
        $(CURDIR)/cp_file.o \
+       $(CURDIR)/verify_error.o \
        $(CURDIR)/commandline.o
 DEPS := $(OBJ:.o=.dep)
 
