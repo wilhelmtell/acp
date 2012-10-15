@@ -15,3 +15,11 @@ TEST_CASE( "verify/source files/all exist", "" ) {
         acp::source_files_not_found
     );
 }
+
+TEST_CASE( "verify/source files/not empty", "" ) {
+    test::variables_map vm;
+    REQUIRE_THROWS_AS(
+        acp::verify_source_files(vm),
+        acp::source_files_count
+    );
+}
