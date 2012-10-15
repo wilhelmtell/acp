@@ -14,6 +14,7 @@ variable::variable(T value)
 template<typename T>
 T variable::as() const
 {
+    assert( boost::any_cast<T>(&value) );
     return boost::any_cast<T>(value);
 }
 } }  // namespace acp::test

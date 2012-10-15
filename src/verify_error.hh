@@ -17,6 +17,10 @@ struct source_files_not_found : std::runtime_error {
 struct target_count : std::runtime_error {
     target_count();
 };
+
+struct target_directory_not_found : std::runtime_error {
+    target_directory_not_found();
+};
 }  // namespace acp
 
 #include "verify_error.tcc"

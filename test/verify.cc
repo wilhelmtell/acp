@@ -8,6 +8,15 @@
 
 namespace test = acp::test;
 
+TEST_CASE( "verify/target directory/not existing throws", "" ) {
+    test::variables_map vm;
+    vm["target_directory"] = std::string("directory_0");
+    REQUIRE_THROWS_AS(
+        acp::verify(vm),
+        acp::target_directory_not_found
+    );
+}
+
 TEST_CASE( "verify/target directory/multiple targets throw", "" ) {
     test::variables_map vm;
     vm["target_directory"] = "directory_0";

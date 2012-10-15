@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <stdexcept>
 #include <boost/filesystem/operations.hpp>
 #include <boost/algorithm/string/join.hpp>
 
@@ -51,7 +50,7 @@ void verify_target_directory(I const& vm)
         return;
     auto const target(vm["target_directory"].template as<std::string>());
     if( ! boost::filesystem::is_directory(target) )
-        throw std::runtime_error("target directory not found");
+        throw acp::target_directory_not_found();
 }
 
 template<typename I>
