@@ -38,6 +38,16 @@ TEST_CASE( "verify/target directory/multiple targets throw", "" ) {
     );
 }
 
+TEST_CASE( "verify/target file/file exists throws", "" ) {
+    test::variables_map vm;
+    test::file file;
+    vm["target_file"] = file.path().string();
+    REQUIRE_THROWS_AS(
+        acp::verify(vm),
+        acp::target_file_exists
+    );
+}
+
 TEST_CASE( "verify/source files/not empty", "" ) {
     test::variables_map vm;
     test::directory directory;
