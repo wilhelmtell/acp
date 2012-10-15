@@ -13,6 +13,10 @@ struct source_files_not_found : std::runtime_error {
     template<typename In>
     source_files_not_found(In files_b, In files_e);
 };
+
+struct target_count : std::runtime_error {
+    target_count();
+};
 }  // namespace acp
 
 #include "verify_error.tcc"

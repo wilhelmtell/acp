@@ -23,3 +23,13 @@ TEST_CASE( "verify/source files/not empty", "" ) {
         acp::source_files_count
     );
 }
+
+TEST_CASE( "verify/target directory/multiple targets throw", "" ) {
+    test::variables_map vm;
+    vm["target_directory"] = "directory_0";
+    vm["target_file"] = "file_0";
+    REQUIRE_THROWS_AS(
+        acp::verify_target(vm),
+        acp::target_count
+    );
+}

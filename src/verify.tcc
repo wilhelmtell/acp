@@ -41,10 +41,16 @@ void verify_source_files(I const& vm)
 }
 
 template<typename I>
-void verify_target(I const& vm)
+void verify_one_target_specified(I const& vm)
 {
     if( vm.count("target_directory") + vm.count("target_file") != 1 )
-        throw std::runtime_error("exactly one target must be specified");
+        throw acp::target_count();
+}
+
+template<typename I>
+void verify_target(I const& vm)
+{
+    verify_one_target_specified(vm);
 }
 
 template<typename I>
@@ -61,8 +67,8 @@ template<typename I>
 void verify(I const& vm)
 {
     verify_target(vm);
-    verify_source_files(vm);
     verify_target_directory(vm);
+    verify_source_files(vm);
 }
 }  // namespace acp
 

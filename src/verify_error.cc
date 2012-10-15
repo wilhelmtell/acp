@@ -5,4 +5,9 @@ source_files_count::source_files_count()
 : runtime_error("no source files specified")
 {
 }
+
+target_count::target_count()
+: runtime_error("exactly one target must be specified")
+{
+}
 }  // namespace acp
