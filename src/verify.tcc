@@ -29,10 +29,7 @@ void verify_source_files_all_exist(I const& vm)
     if( pivot != src_e )
         throw acp::source_files_not_found(pivot, src_e);
 }
-} }  // namespace acp::detail
 
-
-namespace acp {
 template<typename I>
 void verify_source_files(I const& vm)
 {
@@ -48,12 +45,6 @@ void verify_one_target_specified(I const& vm)
 }
 
 template<typename I>
-void verify_target(I const& vm)
-{
-    verify_one_target_specified(vm);
-}
-
-template<typename I>
 void verify_target_directory(I const& vm)
 {
     if( ! vm.count("target_directory") )
@@ -64,11 +55,20 @@ void verify_target_directory(I const& vm)
 }
 
 template<typename I>
+void verify_target(I const& vm)
+{
+    verify_one_target_specified(vm);
+    verify_target_directory(vm);
+}
+} }  // namespace acp::detail
+
+
+namespace acp {
+template<typename I>
 void verify(I const& vm)
 {
-    verify_target(vm);
-    verify_target_directory(vm);
-    verify_source_files(vm);
+    detail::verify_target(vm);
+    detail::verify_source_files(vm);
 }
 }  // namespace acp
 

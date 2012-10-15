@@ -11,7 +11,7 @@ TEST_CASE( "verify/source files/all exist", "" ) {
     test::variables_map vm;
     vm["source_files"] = std::vector<std::string>({ "file_0" });
     REQUIRE_THROWS_AS(
-        acp::verify_source_files(vm),
+        acp::detail::verify_source_files(vm),
         acp::source_files_not_found
     );
 }
@@ -19,7 +19,7 @@ TEST_CASE( "verify/source files/all exist", "" ) {
 TEST_CASE( "verify/source files/not empty", "" ) {
     test::variables_map vm;
     REQUIRE_THROWS_AS(
-        acp::verify_source_files(vm),
+        acp::detail::verify_source_files(vm),
         acp::source_files_count
     );
 }
@@ -29,7 +29,7 @@ TEST_CASE( "verify/target directory/multiple targets throw", "" ) {
     vm["target_directory"] = "directory_0";
     vm["target_file"] = "file_0";
     REQUIRE_THROWS_AS(
-        acp::verify_target(vm),
+        acp::detail::verify_target(vm),
         acp::target_count
     );
 }
