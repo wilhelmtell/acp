@@ -44,20 +44,34 @@ void verify_one_target_specified(I const& vm)
 }
 
 template<typename I>
-void verify_target_directory(I const& vm)
+void verify_target_directory_exists(I const& vm)
 {
-    if( ! vm.count("target_directory") )
-        return;
+    auto const target(vm["target_directory"].template as<std::string>());
+    if( ! boost::filesystem::exists(target) )
+        throw acp::target_directory_not_found();
+}
+
+template<typename I>
+void verify_target_directory_is_a_directory(I const& vm)
+{
     auto const target(vm["target_directory"].template as<std::string>());
     if( ! boost::filesystem::is_directory(target) )
-        throw acp::target_directory_not_found();
+        throw acp::target_directory_is_not_a_directory();
+}
+
+template<typename I>
+void verify_target_directory(I const& vm)
+{
+    verify_target_directory_exists(vm);
+    verify_target_directory_is_a_directory(vm);
 }
 
 template<typename I>
 void verify_target(I const& vm)
 {
     verify_one_target_specified(vm);
-    verify_target_directory(vm);
+    if( vm.count("target_directory") )
+        verify_target_directory(vm);
 }
 } }  // namespace acp::detail
 

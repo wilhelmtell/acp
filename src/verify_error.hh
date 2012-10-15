@@ -21,6 +21,10 @@ struct target_count : std::runtime_error {
 struct target_directory_not_found : std::runtime_error {
     target_directory_not_found();
 };
+
+struct target_directory_is_not_a_directory : std::runtime_error {
+    target_directory_is_not_a_directory();
+};
 }  // namespace acp
 
 #include "verify_error.tcc"

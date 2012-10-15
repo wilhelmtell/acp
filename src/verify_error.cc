@@ -15,4 +15,9 @@ target_directory_not_found::target_directory_not_found()
 : runtime_error("target directory not found")
 {
 }
+
+target_directory_is_not_a_directory::target_directory_is_not_a_directory()
+: runtime_error("target directory specified is not a directory")
+{
+}
 }  // namespace acp

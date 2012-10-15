@@ -1,6 +1,7 @@
 #include <catch/catch.hpp>
 #include "variables_map.hh"
 #include "directory.hh"
+#include "file.hh"
 #include <acp/verify.hh>
 #include <acp/verify_error.hh>
 #include <vector>
@@ -14,6 +15,16 @@ TEST_CASE( "verify/target directory/not existing throws", "" ) {
     REQUIRE_THROWS_AS(
         acp::verify(vm),
         acp::target_directory_not_found
+    );
+}
+
+TEST_CASE( "verify/target directory/is a file throws", "" ) {
+    test::variables_map vm;
+    test::file file;
+    vm["target_directory"] = file.path().string();
+    REQUIRE_THROWS_AS(
+        acp::verify(vm),
+        acp::target_directory_is_not_a_directory
     );
 }
 
