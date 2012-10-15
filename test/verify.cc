@@ -19,8 +19,8 @@ TEST_CASE( "verify/target directory/not existing throws", "" ) {
 
 TEST_CASE( "verify/target directory/multiple targets throw", "" ) {
     test::variables_map vm;
-    vm["target_directory"] = "directory_0";
-    vm["target_file"] = "file_0";
+    vm["target_directory"] = std::string("directory_0");
+    vm["target_file"] = std::string("file_0");
     REQUIRE_THROWS_AS(
         acp::verify(vm),
         acp::target_count
