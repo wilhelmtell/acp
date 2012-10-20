@@ -17,7 +17,6 @@ po::options_description options_description()
         ("help", "display this help message")
         ("verbose,v", "describe what's being done")
         ("source_files", po::value<std::vector<std::string>>(), "files to copy")
-        ("target_file", po::value<std::string>(), "file to copy as")
         ("target_directory", po::value<std::string>(), "directory to copy into");
     return desc;
 }

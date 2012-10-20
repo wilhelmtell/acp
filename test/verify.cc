@@ -28,26 +28,6 @@ TEST_CASE( "verify/target directory/is a file throws", "" ) {
     );
 }
 
-TEST_CASE( "verify/target directory/multiple targets throw", "" ) {
-    test::variables_map vm;
-    vm["target_directory"] = std::string("directory_0");
-    vm["target_file"] = std::string("file_0");
-    REQUIRE_THROWS_AS(
-        acp::verify(vm),
-        acp::target_count
-    );
-}
-
-TEST_CASE( "verify/target file/file exists throws", "" ) {
-    test::variables_map vm;
-    test::file file;
-    vm["target_file"] = file.path().string();
-    REQUIRE_THROWS_AS(
-        acp::verify(vm),
-        acp::target_file_exists
-    );
-}
-
 TEST_CASE( "verify/source files/not empty", "" ) {
     test::variables_map vm;
     test::directory directory;

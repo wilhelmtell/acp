@@ -20,9 +20,4 @@ target_directory_is_not_a_directory::target_directory_is_not_a_directory()
 : runtime_error("target directory specified is not a directory")
 {
 }
-
-target_file_exists::target_file_exists()
-: runtime_error("target file specified exists; refusing to overwrite")
-{
-}
 }  // namespace acp
