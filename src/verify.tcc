@@ -13,14 +13,14 @@ namespace acp { namespace detail {
 template<typename I>
 void verify_source_files_count(I const& vm)
 {
-    if( ! vm.count("source_files") )
+    if( ! vm.count("source_file") )
         throw acp::source_files_count();
 }
 
 template<typename I>
 void verify_source_files_all_exist(I const& vm)
 {
-    auto src(vm["source_files"].template as<std::vector<std::string>>());
+    auto src(vm["source_file"].template as<std::vector<std::string>>());
     auto const src_b(begin(src)), src_e(end(src));
     auto const pivot(partition(src_b, src_e, [](std::string const& s) {
         return boost::filesystem::exists(s);

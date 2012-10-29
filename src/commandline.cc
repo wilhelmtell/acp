@@ -16,7 +16,7 @@ po::options_description options_description()
     desc.add_options()
         ("help", "display this help message")
         ("verbose,v", "describe what's being done")
-        ("source_files", po::value<std::vector<std::string>>(), "files to copy")
+        ("source_file", po::value<std::vector<std::string>>(), "file to copy")
         ("target_directory", po::value<std::string>(), "directory to copy into");
     return desc;
 }
@@ -48,7 +48,7 @@ void exec(po::variables_map const& vm)
 {
     acp::verify(vm);
     auto const out(vm.count("verbose") ? &std::cout : nullptr);
-    auto const source_files(vm["source_files"].as<std::vector<std::string>>());
+    auto const source_files(vm["source_file"].as<std::vector<std::string>>());
     auto const target(vm["target_directory"].as<std::string>());
     acp::cp op(source_files.begin(), source_files.end(), target, out);
     op.commit();

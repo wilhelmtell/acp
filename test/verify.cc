@@ -42,7 +42,7 @@ TEST_CASE( "verify/source files/all exist", "" ) {
     test::variables_map vm;
     test::directory directory;
     vm["target_directory"] = directory.path().string();
-    vm["source_files"] = std::vector<std::string>({ "file_0" });
+    vm["source_file"] = std::vector<std::string>({ "file_0" });
     REQUIRE_THROWS_AS(
         acp::verify(vm),
         acp::source_files_not_found
