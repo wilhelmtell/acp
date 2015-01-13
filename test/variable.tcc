@@ -3,6 +3,7 @@
 
 #include "variables_map.hh"
 #include <boost/any.hpp>
+#include <cassert>
 
 namespace acp { namespace test {
 template<typename T>
