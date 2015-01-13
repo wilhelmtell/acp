@@ -1,0 +1,5 @@
+let g:ctrlp_custom_ignore = {
+      \ 'file': '\v<(autom4te\.cache/.*|\.deps|Makefile(\.in)?|aclocal\.m4|ar-lib|compile|config(ure|\.(cache|h(\.in\~?)?|log|status|guess|sub))|depcomp|install-sh|missing|src/acp|test/check_acp|stamp-h1)$|\.(o|a|sw[op])$',
+      \ 'dir': '\v^autom4te\.cache$',
+      \ 'link': '\v^include/acp$',
+      \ }
