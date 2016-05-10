@@ -1,0 +1,4 @@
+ acp - atomic cp
+
+Copy source files and directories in an all-or-nothing fashion. Either
+all files successfully copy, or (in case of an error) none at all copy.
